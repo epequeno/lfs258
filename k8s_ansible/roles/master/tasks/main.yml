@@ -1,0 +1,47 @@
+---
+- name: reset cluster
+  command: kubeadm reset
+  ignore_errors: True
+
+- name: init cluster
+  command: kubeadm init --pod-network-cidr=10.244.0.0/16
+  register: kubeadm_init_output
+  when: kubeadm_token is not defined
+
+- name: "set fact: token"
+  set_fact: kubeadm_token={{ kubeadm_init_output.stdout.splitlines()[-1].split()[3] }}
+  when: kubeadm_token is not defined
+
+- name: "set fact: join command"
+  set_fact: kubeadm_join_command={{ kubeadm_init_output.stdout.splitlines()[-1].strip() }}
+  register: kubeadm_join_command
+  when: kubeadm_join_command is not defined
+
+- debug:
+    msg: "{{ kubeadm_join_command }}"
+
+- name: config bashrc
+  lineinfile:
+    path: /root/.bashrc
+    line: "export KUBECONFIG=/etc/kubernetes/admin.conf"
+
+- name: set config.fish
+  copy:
+    src: ./config.fish
+    dest: /root/.config/fish/
+
+- name: create k alias
+  copy:
+    src: ./k.fish
+    dest: /root/.config/fish/functions/
+
+- name: iptables bridge
+  command: sysctl net.bridge.bridge-nf-call-iptables=1
+
+- name: apply flannel
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+
+- name: wait for startup
+  pause: minutes=1

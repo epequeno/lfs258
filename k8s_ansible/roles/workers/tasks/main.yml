@@ -1,0 +1,10 @@
+---
+- name: kubeadm reset
+  command: kubeadm reset
+  ignore_errors: True
+
+- set_fact: join_command={{ hostvars[groups['masters'][0]]['kubeadm_join_command'] }}
+  when: kubeadm_join_command is not defined
+
+- name: join cluster
+  command: "{{ join_command }}"

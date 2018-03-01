@@ -1,0 +1,59 @@
+---
+- name: add google apt key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: add k8s repo
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+
+# packages
+- name: install apt https
+  apt:
+    name: apt-transport-https
+    state: latest
+    update_cache: yes
+
+- name: install docker
+  apt:
+    name: docker.io
+    state: latest
+
+- name: install kubeadm
+  apt:
+    name: kubeadm
+    state: latest
+
+- name: install kubelet
+  apt:
+    name: kubelet
+    state: latest
+
+- name: install kubectl
+  apt:
+    name: kubectl
+    state: latest
+
+- name: install fish shell
+  apt:
+    name: fish
+    state: latest
+
+# services
+- name: start/enable kubelet
+  service:
+    name: kubelet
+    enabled: yes
+    state: started
+
+- name: start/enable docker
+  service:
+    name: docker
+    enabled: yes
+    state: started
+
+# commands
+- name: set root shell
+  command: usermod -s /usr/bin/fish root

@@ -1,0 +1,18 @@
+---
+- name: apply common config to all nodes
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+
+- name: configure master
+  hosts: master
+  remote_user: root
+  roles:
+    - master
+
+- name: configure workers
+  hosts: workers
+  remote_user: root
+  roles:
+    - workers
