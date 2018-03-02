@@ -23,7 +23,7 @@ if not token:
 
 manager = digitalocean.Manager(token=token)
 keys = manager.get_all_sshkeys()
-jupiter_key = [k for k in keys if k.name == 'jupiter']
+key = [k for k in keys if k.name == 'sol']
 
 ansible_data = {}
 
@@ -34,7 +34,7 @@ def create_droplet(name, region='nyc1'):
                                    name=name,
                                    region=region,
                                    image=21669205,
-                                   ssh_keys=jupiter_key,
+                                   ssh_keys=key,
                                    size_slug='s-4vcpu-8gb',
                                    backups=False)
     droplet.create()

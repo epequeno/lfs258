@@ -35,8 +35,18 @@
     src: ./k.fish
     dest: /root/.config/fish/functions/
 
+- name: create ksys alias
+  copy:
+    src: ./ksys.fish
+    dest: /root/.config/fish/functions/
+
 - name: iptables bridge
   command: sysctl net.bridge.bridge-nf-call-iptables=1
+
+- name: apply k8s dashboard
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  command: kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 
 - name: apply flannel
   environment:
