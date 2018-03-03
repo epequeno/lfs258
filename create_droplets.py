@@ -49,6 +49,7 @@ def create_droplet(name, region='nyc1'):
     logging.info(f'done creating: {name}')
     ansible_data[name] = f'{name} ansible_host='
 
+
 if __name__ == '__main__':
   # set names
   num_workers = 2
@@ -68,11 +69,11 @@ if __name__ == '__main__':
       ansible_data[droplet.name] += droplet.ip_address
 
   config_file = f"""\
-  [masters]
-  {ansible_data['master']}
+[masters]
+{ansible_data['master']}
 
-  [workers]
-  """
+[workers]
+"""
 
   for line in [v for k,v in ansible_data.items() if k != 'master']:
       config_file += f'{line}\n'
