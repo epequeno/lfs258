@@ -7,4 +7,8 @@
   when: kubeadm_join_command is not defined
 
 - name: join cluster
-  command: "{{ join_command }}"
+  command: "timeout .5m {{ join_command }}"
+  register: result
+  until: result.rc == 0
+  retries: 3
+  delay: 5
