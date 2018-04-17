@@ -23,18 +23,27 @@
 
 - name: install kubeadm
   apt:
-    name: kubeadm
-    state: latest
+    name: kubeadm={{ kubernetes_version }}
+    state: present
+    force: yes
+  tags:
+    - k8s-packages
 
 - name: install kubelet
   apt:
-    name: kubelet
-    state: latest
+    name: kubelet={{ kubernetes_version }}
+    state: present
+    force: yes
+  tags:
+    - k8s-packages
 
 - name: install kubectl
   apt:
-    name: kubectl
-    state: latest
+    name: kubectl={{ kubernetes_version }}
+    state: present
+    force: yes
+  tags:
+    - k8s-packages
 
 - name: install fish shell
   apt:

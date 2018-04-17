@@ -1,3 +1,5 @@
 ---
 ansible_user: root
 ansible_python_interpreter: /usr/bin/python3
+# CKA currently uses v1.9.1 as of 2018-04-17
+kubernetes_version: 1.9.1-00

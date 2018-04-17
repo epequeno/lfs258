@@ -105,3 +105,5 @@ venv.bak/
 .mypy_cache/
 
 venv
+k8s_ansible/hosts
+k8s_ansible/kube.retry

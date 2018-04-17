@@ -1,6 +1,0 @@
-  [masters]
-  master ansible_host=159.89.226.155
-
-  [workers]
-  worker-0 ansible_host=159.89.232.90
-worker-1 ansible_host=159.65.232.173
