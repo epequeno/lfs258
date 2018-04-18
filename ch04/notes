@@ -1,3 +1,0 @@
-k -n kube-system get secret
-k -n kube-system describe secret kubernetes-dashboard-token-vx27t
-ksys describe secret (ksys get secret | grep dashboard-token | awk '{print $1}') | tail -1

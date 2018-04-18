@@ -1,0 +1,10 @@
+Aliases
+---
+k=`kubectl`
+ksys=`kubectl -n kube-system`
+kc=`kubectl create`
+
+
+ksys get secret
+ksys describe secret kubernetes-dashboard-token-vx27t
+ksys describe secret (ksys get secret | grep dashboard-token | awk '{print $1}') | tail -1
